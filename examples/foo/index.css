@@ -1,0 +1,5 @@
+@import 'variables';
+
+DIV {
+  color: var(--color);
+}

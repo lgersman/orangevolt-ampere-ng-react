@@ -1,0 +1,67 @@
+{
+  "name": "orangevolt-ampere-ng-react",
+  "version": "0.0.1",
+  "description": "React implementation of [Orangevolt Ampere NG](https://github.com/lgersman/orangevolt-ampere-ng) written in ES6/ES7",
+  "homepage": "https://github.com/lgersman/orangevolt-ampere-ng",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/eslint src test && node test/test-node-specs.js -v",
+    "tdd": "node_modules/.bin/watchy -w . -i '/dist|(.*/dist(/.*)?)/' -- node_modules/.bin/gulp serve",
+    "build": "node_modules/.bin/gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lgersman/orangevolt-ampere-ng-react"
+  },
+  "bugs": {
+    "url": "https://github.com/lgersman/orangevolt-ampere-ng-react/issues"
+  },
+  "keywords": [
+    "orangevolt",
+    "ampere",
+    "es6",
+    "gulp",
+    "ecmascript6",
+    "es6",
+    "babel",
+    "react"
+  ],
+  "author": "Lars Gersmann <lars.gersmann@gmail.com> (http://www.orangevolt.com/)",
+  "license": [
+    "GPL2",
+    "MIT"
+  ],
+  "devDependencies": {
+    "babel-eslint": "~4.0.10",
+    "eslint": "~1.2.1",
+    "eslint-plugin-react": "~3.2.3",
+    "minijasminenode2": "~1.0.0",
+    "babel": "~5.8.21",
+    "babel-plugin-typecheck": "~1.2.0",
+    "react": "~0.14.0-beta1",
+    "babel-core": "~5.8.22",
+    "babel-runtime": "~5.8.20",
+    "core-js": "~1.1.1",
+    "gulp": "~3.9.0",
+    "browserify": "~11.0.1",
+    "babelify": "~6.2.0",
+    "through2": "~2.0.0",
+    "globby": "~2.1.0",
+    "cssnext": "~1.8.4",
+    "express": "~4.13.3",
+    "connect-gzip-static": "~1.0.0",
+    "serve-index": "~1.7.2",
+    "browser-sync": "~2.8.2",
+    "watchy": "~0.6.2",
+    "envify": "~3.4.0",
+    "brfs": "~1.4.1",
+    "browserify-shim": "~3.8.10",
+    "uglify-js": "~2.4.24",
+    "sweetify": "~0.4.0"
+  },
+  "browserify-shim": {
+    "react": "global:React",
+    "orangevolt-ampere-ng": "global:Ampere",
+    "orangevolt-ampere-ng-react": "global:AmpereReact"
+  }
+}
