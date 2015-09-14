@@ -13,30 +13,38 @@ export default function({uriComponentToMatch='ping-alive', interval=2000}={}) {
       <input type="checkbox" onchange="window.localStorage['task-serve-pingalive-autoreload']=this.checked.toString()">
       Auto reload after build ?          
     `,
+          disablePingAlive = `
+      <input type="checkbox" onchange="this.parentElement.parentElement.onDisabledChanged(this.checked);">
+      Disable
+    `,
           style = `
-      display  : inline-block;
-      border   : 1px solid;
-      padding  : 4px;  
-      position : fixed;
-      right    : 0;
-      bottom   : 0;
-      z-index  : 1000000;
-      background-color : magenta;
-      color    : white;
+      display           : inline-block;
+      border            : 1px solid;
+      padding           : 4px;  
+      position          : fixed;
+      right             : 0;
+      bottom            : 0;
+      z-index           : 1000000;
+      background-color  : magenta;
+      color             : white;
     `,
           aliveFragment = `
-      <label>
+      <label style="font-weight : bold">
         ${autoreloadInput.replace(/after build/, 'after next build')}
+      </label>
+      <br>
+      <label>
+        ${disablePingAlive}
       </label>
     `;
     
-    const poll = (uriComponentToMatch, autoreloadInput)=>{
+    const poll = (uriComponentToMatch, autoreloadInput, disablePingAlive)=>{
       window.fetch(`/${uriComponentToMatch}?${new Date().getTime()}`).then(
         ()=>{
           if (eWrapper.dataset.reload==='true') {
             eWrapper.dataset.reload = false;
             eWrapper.innerHTML = `
-              <label>
+              <label style="font-weight : bold">
                 Rebuilding done
                 <button type="button" onclick="document.location.reload()">Reload ?</button>
               </label>
@@ -48,15 +56,19 @@ export default function({uriComponentToMatch='ping-alive', interval=2000}={}) {
           if (eWrapper.dataset.reload==='false') {
             eWrapper.dataset.reload = true;
             eWrapper.innerHTML = `
-              <label>
                 <marquee>Rebuilding ...</marquee>
-                ${autoreloadInput}
-              </label>
+                <label style="font-weight : bold">
+                  ${autoreloadInput}
+                </label>
+                <br>
+                <label onclick="this.parentElement.querySelector('marquee') && this.parentElement.querySelector('marquee').remove()">
+                  ${disablePingAlive}
+                </label>
             `;
             eWrapper.querySelector('input').checked=window.localStorage['task-serve-pingalive-autoreload']==='true';
           }
         }
-      )
+      );
     };
     
     return `
@@ -68,15 +80,32 @@ export default function({uriComponentToMatch='ping-alive', interval=2000}={}) {
       eWrapper.querySelector('input').checked=window.localStorage['task-serve-pingalive-autoreload']==='true';
       document.body.appendChild(eWrapper);
       
-      setInterval(
-        (${poll})
-        .bind( 
-          this, 
-          ${JSON.stringify(uriComponentToMatch)},
-          ${JSON.stringify(autoreloadInput)}
-        ),
-        ${interval}
-      );
+      var intervalHandle; 
+      
+      eWrapper.querySelectorAll('input')[1].checked = window.localStorage['task-serve-pingalive-disabled']=='true';
+      eWrapper.onDisabledChanged = function(checked) {
+        window.localStorage['task-serve-pingalive-disabled']=checked.toString(); 
+        eWrapper.querySelector('input').disabled = checked;
+        
+        if (checked) {
+          window.clearInterval(intervalHandle);
+        } else {
+          intervalHandle = setInterval(
+            (${poll})
+            .bind( 
+              this, 
+              ${JSON.stringify(uriComponentToMatch)},
+              ${JSON.stringify(autoreloadInput)},
+              ${JSON.stringify(disablePingAlive)}
+            ),
+            ${interval}
+          );
+        }
+      };      
+      
+        // trigger initial activation
+      eWrapper.onDisabledChanged(window.localStorage['task-serve-pingalive-disabled']==='true');
+      
     })(document.createElement('div'));  
   </script>
     `;

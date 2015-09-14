@@ -1,0 +1,27 @@
+/*html >*/ body {
+  font-family:'Roboto','Helvetica','Arial',sans-serif!important;
+  background-color:#FAFAFA;
+}
+
+.orangevolt-ampere-ng {
+  &.splash {
+    > .content {
+      display : flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      
+      > .caption {
+        text-align   : center;
+        width        : 100%;
+        
+        /* truncate with ellipsis */
+        white-space  : nowrap;
+        overflow     : hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

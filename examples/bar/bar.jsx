@@ -1,9 +1,7 @@
 import React from 'react';
 import Ampere from 'orangevolt-ampere-ng';
 
-//import {Ampere,React} from 'orangevolt-ampere-ng-react';
-
-console.log(`Ampere.VERSION=${Ampere.VERSION}`);
+//console.log(`Ampere.VERSION=${Ampere.VERSION}`);
 
 export default class Bar extends React.Component {
   onPClicked= evt=>{
